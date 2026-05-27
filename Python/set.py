@@ -1,4 +1,4 @@
-# set = collection which is unordered, unindexed. No duplicated values
+# set = collection which is unordered, unindexed.
 
 utensils = {"fork", "spoon","knife"};
 dishes = {"bowl", "plate", "cup", "knife"};
