@@ -4,6 +4,5 @@ def hello(name):
 
 hello("Alice") # Calling the function to execute its code.
 
-
 #again
 hello("Bob")
