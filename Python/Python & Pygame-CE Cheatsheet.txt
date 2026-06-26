@@ -1,0 +1,167 @@
+﻿Python & Pygame-CE Cheatsheet
+Part 1: Python Basics
+1. Variables and Data Types
+# Variables don't need explicit declaration
+x = 10                  # int
+y = 3.14                # float
+name = "Alice"          # str
+is_active = True        # bool
+
+# Type casting
+str_x = str(x)          # Convert int to string
+int_y = int(y)          # Convert float to int (3)
+
+2. Lists and Dictionaries
+# Lists (Ordered, mutable)
+fruits = ["apple", "banana", "cherry"]
+fruits.append("orange") # Add item
+fruits[0]               # Access first item ("apple")
+fruits[-1]              # Access last item ("orange")
+len(fruits)             # Get length
+
+# Dictionaries (Key-Value pairs)
+player = {"name": "Hero", "health": 100, "score": 50}
+player["health"]        # Access value (100)
+player["speed"] = 5     # Add new key-value pair
+
+3. Control Flow (Conditionals & Loops)
+# If / Elif / Else
+if score > 90:
+   print("A")
+elif score > 80:
+   print("B")
+else:
+   print("C")
+
+# For Loops
+for i in range(5):      # Loops 0 to 4
+   print(i)
+
+for fruit in fruits:    # Iterate through a list
+   print(fruit)
+
+# While Loops
+count = 0
+while count < 5:
+   print(count)
+   count += 1
+
+4. Functions
+def greet(name, greeting="Hello"):
+   return f"{greeting}, {name}!"
+
+print(greet("Alice"))          # Hello, Alice!
+print(greet("Bob", "Welcome")) # Welcome, Bob!
+
+Part 2: Pygame-CE (Community Edition)
+Note: To install Pygame-CE, run pip install pygame-ce in your terminal. In your code, you still use import pygame.
+1. Initialization and Setup
+import pygame
+
+pygame.init() # Initialize all imported pygame modules
+
+# Setup Display
+WIDTH, HEIGHT = 800, 600
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("My Awesome Game")
+
+# Frame Rate Clock
+clock = pygame.time.Clock()
+FPS = 60
+
+2. Colors (RGB Format)
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+RED   = (255, 0, 0)
+GREEN = (0, 255, 0)
+BLUE  = (0, 0, 255)
+
+3. The Game Loop & Event Handling
+running = True
+while running:
+   # 1. Event Handling
+   for event in pygame.event.get():
+       if event.type == pygame.QUIT:
+           running = False
+           
+       # Keyboard Events
+       if event.type == pygame.KEYDOWN:
+           if event.key == pygame.K_SPACE:
+               print("Spacebar pressed!")
+
+   # 2. Continuous Keyboard Input (Checking state)
+   keys = pygame.key.get_pressed()
+   if keys[pygame.K_LEFT]:
+       # Move left
+       pass
+
+   # 3. Mouse Input
+   mouse_x, mouse_y = pygame.mouse.get_pos()
+   mouse_buttons = pygame.mouse.get_pressed() # (left, middle, right)
+
+   # 4. Updating and Drawing
+   screen.fill(BLACK) # Clear screen for next frame
+   
+   # ... draw things here ...
+
+   pygame.display.flip() # Swap buffers (update screen)
+   clock.tick(FPS)       # Cap framerate
+
+pygame.quit()
+
+4. Surfaces and Rects
+Surfaces are images/canvases. Rects are used for positioning and collision.
+# Create a surface (e.g., a 50x50 block)
+player_surf = pygame.Surface((50, 50))
+player_surf.fill(RED)
+
+# Get the Rect associated with the surface
+player_rect = player_surf.get_rect(center=(WIDTH//2, HEIGHT//2))
+
+# Moving a Rect
+player_rect.x += 5
+player_rect.y -= 2
+
+# Collision Detection
+if player_rect.colliderect(enemy_rect):
+   print("Collision!")
+
+# Draw surface to screen
+screen.blit(player_surf, player_rect)
+
+5. Drawing Shapes
+# Draw a Rectangle: (surface, color, rect, width/thickness)
+pygame.draw.rect(screen, GREEN, pygame.Rect(10, 10, 100, 50))
+
+# Draw a Circle: (surface, color, center_pos, radius)
+pygame.draw.circle(screen, BLUE, (400, 300), 30)
+
+# Draw a Line: (surface, color, start_pos, end_pos, width)
+pygame.draw.line(screen, WHITE, (0, 0), (800, 600), 5)
+
+6. Loading Images and Text
+# Images (Use convert_alpha() for transparency)
+player_img = pygame.image.load("player.png").convert_alpha()
+# Scaling an image
+player_img = pygame.transform.scale(player_img, (64, 64))
+
+# Fonts & Text
+# None uses default font, 36 is size
+font = pygame.font.Font(None, 36) 
+# (text, antialias, color)
+text_surf = font.render("Score: 100", True, WHITE) 
+text_rect = text_surf.get_rect(topleft=(10, 10))
+
+# Blit text to screen
+screen.blit(text_surf, text_rect)
+
+7. Sound and Music (Mixer)
+pygame.mixer.init()
+
+# Sound effects (WAV/OGG)
+jump_sound = pygame.mixer.Sound("jump.wav")
+jump_sound.play() # Play sound
+
+# Background music
+pygame.mixer.music.load("background.mp3")
+pygame.mixer.music.play(-1) # -1 means loop infinitely
